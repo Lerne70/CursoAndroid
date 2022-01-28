@@ -7,8 +7,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import androidx.core.os.bundleOf
 import androidx.fragment.app.commit
 import androidx.fragment.app.setFragmentResultListener
+import androidx.navigation.fragment.findNavController
 
 // De esta forma se pasa la vista que estaba en el onCreatedView
 // Se construye de manera implicita el onCreateView
@@ -30,16 +32,8 @@ class PrimerFragment : Fragment(R.layout.fragment_primer) {
         }
 
         boton.setOnClickListener {
-            requireActivity().supportFragmentManager.commit {
-                replace(R.id.fragment_container_view, SegundoFragment.newInstance("Luis", 22))
-                addToBackStack("primerFragment")
-            }
-            /*
-            parentFragmentManager.commit {
-                replace(R.id.fragment_container_view, SegundoFragment())
-                addToBackStack("primerFragment")
-            }
-            */
+            val action = PrimerFragmentDirections.actionPrimerFragmentToSegundoFragment()
+            findNavController().navigate(action)
         }
     }
 

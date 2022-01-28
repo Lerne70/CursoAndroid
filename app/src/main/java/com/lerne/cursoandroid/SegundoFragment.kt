@@ -1,5 +1,6 @@
 package com.lerne.cursoandroid
 
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,22 +10,22 @@ import android.widget.Button
 import android.widget.TextView
 import androidx.core.os.bundleOf
 import androidx.fragment.app.setFragmentResult
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 
 
 class SegundoFragment : Fragment(R.layout.fragment_segundo) {
 
     private var nombre: String? = ""
     private var edad: Int? = 0
+    private val args: SegundoFragmentArgs by navArgs()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        /**
-         * En el momento en que se crea la actividad los datos ya estan listos
-         * para mostrarse
-         */
-        nombre = requireArguments().getString(MI_NOMBRE)
-        edad = requireArguments().getInt(MI_EDAD)
+        nombre = args.nombre
+        edad = args.edad
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,25 +40,10 @@ class SegundoFragment : Fragment(R.layout.fragment_segundo) {
              * el bundle darle el id y el valor
              */
             setFragmentResult("requestKey", bundleOf("bundleKey" to result))
+            findNavController().navigate(Uri.parse("cursoandroid://card"))
         }
         texto.text = "$nombre $edad"
 
-    }
-
-
-    /**
-     * El companion object nos ayuda para crear
-     * variables y metodos estaticos,
-     * gracias a ello podemos acceder a las variables y
-     * metodos desde cualquier otro lado
-     */
-    companion object {
-        private const val MI_NOMBRE = "nombre"
-        private const val MI_EDAD = "edad"
-
-        fun newInstance(nombre: String, edad: Int) = SegundoFragment().apply {
-            arguments = bundleOf(MI_NOMBRE to nombre, MI_EDAD to edad)
-        }
     }
 
 }
